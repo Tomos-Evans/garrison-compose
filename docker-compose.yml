@@ -1,0 +1,21 @@
+version: "3.1"
+services:
+  garrison:
+    image: tomosevans/garrison
+    ports:
+      - 80:5000
+    env_file:
+      - .env
+    environment:
+      # notes                              user     pass       host     db_name
+      - DATABASE_URL=postgresql+psycopg2://postgres:${DB_PASS}@postgres/postgres
+
+  postgres:
+    image: postgres:10.5-alpine
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASS}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
